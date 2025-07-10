@@ -37,8 +37,9 @@ When the app launches:
 
 * You’ll see a clean dashboard with a text input for stock symbol names (e.g., "شستا").
 * The system automatically retrieves relevant news headlines, summarizes them using an LLM, and filters them based on their relevance.
+![search a symbol](./static/assetes/search_new.gif)
 * When you click the **"Analyze with LLM"** button, a detailed GPT-based analysis is generated for the selected stock.
-
+![search a symbol](./static/assetes/analyze.gif)
 ---
 
 ## 🧪 Example Output
@@ -147,7 +148,9 @@ OPENAI_API_KEY=کلید_API_شما
 
 * صفحه‌ای با فیلد ورود نماد بورس ظاهر می‌شود.
 * با وارد کردن نام نماد (مثل "شستا")، اخبار مرتبط از منابع اقتصادی بارگیری و خلاصه‌سازی می‌شود.
+![search a symbol](./static/assetes/search_new.gif)
 * با کلیک بر دکمه **تحلیل با مدل زبانی**، تحلیل نهایی توسط GPT انجام شده و نمایش داده می‌شود.
+![search a symbol](./static/assetes/analyze.gif)
 
 ---
 
