@@ -1,11 +1,9 @@
-# graph/nodes/filter_symbols.py
-
 from typing import TYPE_CHECKING
 from utils.logger import get_logger
-from utils.parsers import parse_symbols  # اطمینان حاصل کن که این تابع در این مسیر وجود دارد
+from utils.parsers import parse_symbols  
 
 if TYPE_CHECKING:
-    from models.news_types import NewsState  # اگر نوع NewsState در مسیر دیگری است، اصلاح کن
+    from models.news_types import NewsState  
 
 logger = get_logger(__name__)
 
@@ -26,13 +24,10 @@ def filter_symbols(state: 'NewsState') -> 'NewsState':
     if not state.get("summary_output"):
         return state
     
-    # استخراج نمادها از خلاصه
     extracted_symbols = parse_symbols(state["summary_output"])
     
-    # استخراج نمادهای معتبر
     valid_symbols = [item['l18'] for item in state.get('symbols', [])]
 
-    # فیلتر
     filtered = [sym for sym in extracted_symbols if sym in valid_symbols]
     
     state["filtered_symbols"] = filtered

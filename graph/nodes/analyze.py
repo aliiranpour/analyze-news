@@ -19,25 +19,19 @@ def analyze(state: 'NewsState') -> 'NewsState':
 
     cache = state.get('cache', {})
     summaries = state.get('summaries', [])
-    
     for summary_entry in summaries:
         summary_text = summary_entry.get('summary', '')
         link = summary_entry.get('link')
 
         try:
-
-
             analysis = analyze_summary(summary_text)
-
             cache_entry = cache.setdefault(link, {})
             cache_entry.update({
                 'symbols': analysis['symbols'],
                 'keywords': analysis['keywords'],
                 'impact_stock': analysis['impact_stock'],
             })
-
             summary_entry.update(cache_entry)
-
         except Exception as e:
             logger.error(f"Failed to analyze summary for {link}: {str(e)}")
             summary_entry.update({
@@ -52,11 +46,6 @@ def analyze(state: 'NewsState') -> 'NewsState':
 
 
 def analyze_summary(summary: str) -> dict:
-    """
-    ارسال خلاصه خبر به LLM و استخراج اطلاعات تحلیلی.
-    """
-
-
     llm =get_llm()
     prompt = ChatPromptTemplate.from_template(
         """
@@ -83,18 +72,13 @@ def analyze_summary(summary: str) -> dict:
         {summary}
         """
     )
-
     chain = prompt | llm
     response = call_chain_with_backoff(chain, {'summary': summary})
     text = response.content.strip()
-
-    print("📩 متن خلاصه ارسالی به LLM:", summary)
-
     res = {
         'symbols': [sym for sym in parse_list(extract_section(text, "نمادها"))] or 'nothing found',
         'keywords': parse_list(extract_section(text, "کلیدواژه‌ها")),
         'impact_stock': parse_impact(extract_section(text, "تأثیر"))
     }
-
     return res
 

@@ -1,5 +1,3 @@
-# graph/nodes/fetch_symbols.py
-
 import requests
 from typing import TYPE_CHECKING
 from utils.logger import get_logger

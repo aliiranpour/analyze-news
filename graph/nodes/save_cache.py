@@ -4,7 +4,7 @@ from utils.setting import CACHE_FILE
 from utils.logger import get_logger
 
 if TYPE_CHECKING:
-    from models.news_types import NewsState  # فقط برای type hint در زمان توسعه
+    from models.news_types import NewsState
 
 logger = get_logger(__name__)
 

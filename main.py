@@ -1,7 +1,3 @@
-# app.py
-
-import os
-import json
 import streamlit as st
 from utils.setting import CACHE_FILE
 from core.response_generator import generate_analysis
@@ -12,7 +8,6 @@ from graph.economic_graph import run_pipeline_graph
 st.set_page_config(page_title="داشبورد اخبار نمادها", layout="wide")
 set_rtl_style()
 
-# اجرای خودکار گراف هنگام ورود به صفحه
 if "pipeline_ran" not in st.session_state:
     st.session_state["pipeline_ran"] = False
 
@@ -21,8 +16,7 @@ if not st.session_state["pipeline_ran"]:
         run_pipeline_graph()
     st.session_state["pipeline_ran"] = True
     st.success("✅ اخبار با موفقیت بروزرسانی شدند.")
-    st.rerun()  # صفحه را مجدداً بارگذاری می‌کند تا کش جدید خوانده شود
-
+    st.rerun()  
 
 st.title("🔍 داشبورد جستجوی اخبار بورسی")
 
@@ -30,7 +24,6 @@ symbol_input = st.text_input(
     "نام نماد را وارد کنید (مثال: فولاد)", value="",
     help="نام نماد بورسی را به حروف فارسی وارد کنید"
 )
-
 state = {'cache': {}}
 state = load_cache(state)
 cache = state['cache']
