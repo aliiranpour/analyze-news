@@ -1,5 +1,3 @@
-# ui/style.py
-
 import streamlit as st
 
 def set_rtl_style():
@@ -14,6 +12,7 @@ def set_rtl_style():
                 direction: rtl !important;
                 text-align: right !important;
                 font-family: 'Yekan' !important;
+                font-color: #000;
             }
 
             .stTextInput > div > input,
@@ -23,6 +22,7 @@ def set_rtl_style():
                 text-align: right !important;
                 direction: rtl !important;
                 font-family: 'Yekan' !important;
+                font-color: #000;
             }
         </style>
     """, unsafe_allow_html=True)

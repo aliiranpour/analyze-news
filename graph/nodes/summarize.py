@@ -11,7 +11,6 @@ logger = get_logger(__name__)
 def summarize_article(content: str) -> str:
     """تولید خلاصه‌ای دو جمله‌ای از خبر همراه با شرکت‌های بورسی"""
 
-
     prompt = ChatPromptTemplate.from_template(
         """
         شما یک تحلیلگر حرفه‌ای در حوزه اقتصاد، بازار سرمایه، ارز دیجیتال، طلا، دلار و مسائل کلان اقتصادی هستید.
@@ -40,45 +39,34 @@ def summarize_article(content: str) -> str:
 
 
 def summarize(state: NewsState) -> NewsState:
-    """خلاصه‌سازی گروهی خبرها با در نظر گرفتن کش"""
+    """خلاصه‌سازی خبرها با در نظر گرفتن کش"""
 
-    logger.info("Batch summarizing articles with batch size %d", BATCH_SIZE)
+    logger.info("Summarizing articles (batch size: %d)", BATCH_SIZE)
     cache = state.get('cache', {})
-    summaries = state.get('summaries', [])
 
-    for art in state['articles']:
+    for art in state['articles'][:50]:
         content = art['content']
         link = art['link']
         h = art['hash']
 
+        if 'summary' in cache.get(link, {}):
+            logger.info(f"Skipping already summarized article: {link}")
+            continue
+
         try:
             summary_text = summarize_article(content)
-            entry = cache.setdefault(link, {})
-            entry.update({
+            cache_entry = cache.setdefault(link, {})
+            cache_entry.update({
                 'hash': h,
                 'summary': summary_text
             })
-
-            summaries.append({
-                'link': link,
-                'summary': summary_text
-            })
-
         except Exception as e:
             logger.error(f"Failed to summarize article {link}: {str(e)}")
-            entry = cache.setdefault(link, {})
-            entry.update({
+            cache_entry = cache.setdefault(link, {})
+            cache_entry.update({
                 'hash': h,
                 'summary': 'Error in summarization'
             })
 
-            summaries.append({
-                'link': link,
-                'summary': 'Error in summarization'
-            })
-
-    state['summaries'] = summaries
     state['cache'] = cache
-
     return state
-

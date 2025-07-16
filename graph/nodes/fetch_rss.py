@@ -1,8 +1,6 @@
 import os
 import feedparser
-import requests
 import logging
-from typing import TypedDict, List, Dict
 from models.news_types import  NewsState
 from utils.logger import get_logger
 

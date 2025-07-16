@@ -1,29 +1,23 @@
-# core/response_generator.py
-
 from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
+from utils.llm import get_llm
 import os
 
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-OPENAI_API_BASE = os.getenv("OPENAI_API_BASE", "https://api.avalapis.ir/v1")
-MODEL_NAME = os.getenv("OPENAI_MODEL_NAME", "deepseek-chat")
 
-llm = ChatOpenAI(
-    model_name=MODEL_NAME,
-    openai_api_base=OPENAI_API_BASE,
-    openai_api_key=OPENAI_API_KEY,
-    temperature=0.0
-)
+llm = get_llm()
 
 def generate_analysis(symbol: str, matching_news: list) -> str:
+
+
     combined = "\n".join([
-        f"خبر: {n['summary']} | کلیدواژه‌ها: {', '.join(n['keywords'])} | تاثیر: {n['impact']}"
+        f"خبر: {n['summary']} | تاثیر: {n['impact']}"
         for n in matching_news
     ])
 
     prompt_template = ChatPromptTemplate.from_template(
         f"""
-        شما یک تحلیلگر حرفه‌ای اقتصادی هستید. بر اساس مجموعه‌ای از خلاصه اخبار و تحلیل‌های زیر که مربوط به نماد «{symbol}» هستند، یک تحلیل دقیق، مستند و کاربردی برای کاربر ارائه دهید.
+        شما یک تحلیلگر حرفه‌ای اقتصادی هستید. بر اساس مجموعه‌ای از خلاصه اخبار و تحلیل‌های زیر که مربوط به نماد 
+        «{symbol}» هستند، یک تحلیل دقیق، مستند و کاربردی برای کاربر ارائه دهید.
 
         تحلیل شما باید شامل بخش‌های زیر باشد:
         1. **روند کلی احتمالی نماد {symbol}** در کوتاه‌مدت بر اساس داده‌های ارائه‌شده

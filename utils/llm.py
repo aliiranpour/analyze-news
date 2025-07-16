@@ -3,10 +3,8 @@ import logging
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 
-# بارگذاری متغیرهای محیطی
 load_dotenv()
 
-# تنظیمات لاگ
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
